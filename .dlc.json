@@ -1,0 +1,45 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^http://127.0.0.1"
+    },
+    {
+      "pattern": "^https://github.com/apache/skywalking-java/blob/master/changes/changes-x.y.z.md$"
+    },
+    {
+      "pattern": "^http://pgp.mit.edu:11371"
+    },
+    {
+      "pattern": "^https://dist.apache.org/repos/dist/dev/skywalking/java-agent/x.y.z$"
+    },
+    {
+      "pattern": "^https://dist.apache.org/repos/dist/release/skywalking/java-agent$"
+    },
+    {
+      "pattern": "https://kotlinlang.org.*"
+    },
+    {
+      "pattern": "^https://mvnrepository.com/"
+    },
+    {
+      "pattern": "^https://twitter.com*"
+    },
+    {
+      "pattern": "^https://blogs.oracle.com/javamagazine/post/a-peek-into-java-17-continuing-the-drive-to-encapsulate-the-java-runtime-internals"
+    }
+  ],
+  "timeout": "10s",
+  "retryOn429": true,
+  "retryCount": 10,
+  "fallbackRetryDelay": "1000s",
+  "aliveStatusCodes": [
+    200,
+    301,
+    302,
+    401,
+    403
+  ]
+}
