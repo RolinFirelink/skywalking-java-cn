@@ -46,6 +46,7 @@ public class AgentPackagePath {
         return AGENT_PACKAGE_PATH != null;
     }
 
+    // 定位SkyWalking agent.jar文件所在的目录路径
     private static File findPath() throws AgentPackageNotFoundException {
         String classResourcePath = AgentPackagePath.class.getName().replaceAll("\\.", "/") + ".class";
 

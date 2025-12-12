@@ -21,17 +21,17 @@ package org.apache.skywalking.apm.util;
 public class PlaceholderConfigurerSupport {
 
     /**
-     * Default placeholder prefix: {@value}
+     * 默认占位符前缀: {@value}
      */
     public static final String DEFAULT_PLACEHOLDER_PREFIX = "${";
 
     /**
-     * Default placeholder suffix: {@value}
+     * 默认占位符后缀: {@value}
      */
     public static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
 
     /**
-     * Default value separator: {@value}
+     * 默认值分隔符: {@value}
      */
     public static final String DEFAULT_VALUE_SEPARATOR = ":";
 

@@ -37,7 +37,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Init a class's static fields by a {@link Properties}, including static fields and static inner classes.
+ * 通过 {@link Properties} 初始化类的静态字段，包括静态字段和静态内部类。
  * <p>
  */
 public class ConfigInitializer {
@@ -46,6 +46,7 @@ public class ConfigInitializer {
         initNextLevel(properties, rootConfigType, new ConfigDesc());
     }
 
+    // 该方法用于递归初始化配置类的静态字段。遍历类中的公共静态字段，根据字段类型（Map、集合或普通类型）和配置属性值进行赋值，支持嵌套内部类的配置加载。
     private static void initNextLevel(Properties properties, Class<?> recentConfigType,
                                       ConfigDesc parentDesc) throws IllegalArgumentException, IllegalAccessException {
         for (Field field : recentConfigType.getFields()) {
@@ -54,28 +55,28 @@ public class ConfigInitializer {
                 Class<?> type = field.getType();
                 if (Map.class.isAssignableFrom(type)) {
                     /*
-                     * Map config format is, config_key[map_key]=map_value, such as plugin.opgroup.resttemplate.rule[abc]=/url/path
-                     * "config_key[]=" will generate an empty Map , user could use this mechanism to set an empty Map
+                     * Map配置格式为：config_key[map_key]=map_value，例如 plugin.opgroup.resttemplate.rule[abc]=/url/path
+                     * "config_key[]=" 将生成一个空的Map，用户可以使用此机制来设置一个空的Map
                      */
                     ParameterizedType genericType = (ParameterizedType) field.getGenericType();
                     Type[] argumentTypes = genericType.getActualTypeArguments();
                     Type keyType = argumentTypes[0];
                     Type valueType = argumentTypes[1];
-                    // A chance to set an empty map
+                    // 提供设置空Map的机会
                     if (properties.containsKey(configKey + "[]")) {
                         Map currentValue = (Map) field.get(null);
                         if (currentValue != null && !currentValue.isEmpty()) {
                             field.set(null, initEmptyMap(type));
                         }
                     } else {
-                        // Set the map from config key and properties
+                        // 根据配置键和属性设置Map
                         Map map = readMapType(type, configKey, properties, keyType, valueType);
                         if (map.size() != 0) {
                             field.set(null, map);
                         }
                     }
                 } else if (properties.containsKey(configKey)) {
-                    //In order to guarantee the default value could be reset as empty , we parse the value even if it's blank
+                    // 为了保证默认值可以被重置为空，即使值为空白我们也进行解析
                     String propertyValue = properties.getProperty(configKey, "");
                     if (Collection.class.isAssignableFrom(type)) {
                         ParameterizedType genericType = (ParameterizedType) field.getGenericType();
@@ -83,7 +84,7 @@ public class ConfigInitializer {
                         Collection collection = convertToCollection(argumentType, type, propertyValue);
                         field.set(null, collection);
                     } else {
-                        // Convert the value into real type
+                        // 将值转换为实际类型
                         final Length lengthDefine = field.getAnnotation(Length.class);
                         if (lengthDefine != null) {
                             int lengthLimited = lengthDefine.value();

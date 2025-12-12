@@ -25,15 +25,18 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * Utility class for working with Strings that have placeholder values in them. A placeholder takes the form {@code
- * ${name}}. Using {@code PropertyPlaceholderHelper} these placeholders can be substituted for user-supplied values. <p>
- * Values for substitution can be supplied using a {@link Properties} instance or using a {@link PlaceholderResolver}.
+ * 用于处理包含占位符值的字符串的工具类。占位符采用 {@code ${name}} 的形式。
+ * 使用 {@code PropertyPlaceholderHelper} 可以将这些占位符替换为用户提供的值。
+ * <p>
+ * 替换值可以通过 {@link Properties} 实例或使用 {@link PlaceholderResolver} 来提供。
  */
 public enum PropertyPlaceholderHelper {
 
+    // 单例对象,传参是为了调用构造方法,默认无视解析不成功的占位符
     INSTANCE(
         PlaceholderConfigurerSupport.DEFAULT_PLACEHOLDER_PREFIX,
-        PlaceholderConfigurerSupport.DEFAULT_PLACEHOLDER_SUFFIX, PlaceholderConfigurerSupport.DEFAULT_VALUE_SEPARATOR,
+        PlaceholderConfigurerSupport.DEFAULT_PLACEHOLDER_SUFFIX,
+        PlaceholderConfigurerSupport.DEFAULT_VALUE_SEPARATOR,
         true
     );
 
@@ -48,14 +51,12 @@ public enum PropertyPlaceholderHelper {
     private final boolean ignoreUnresolvablePlaceholders;
 
     /**
-     * Creates a new {@code PropertyPlaceholderHelper} that uses the supplied prefix and suffix.
+     * 创建一个新的 {@code PropertyPlaceholderHelper}，使用指定的前缀和后缀。
      *
-     * @param placeholderPrefix              the prefix that denotes the start of a placeholder
-     * @param placeholderSuffix              the suffix that denotes the end of a placeholder
-     * @param valueSeparator                 the separating character between the placeholder variable and the
-     *                                       associated default value, if any
-     * @param ignoreUnresolvablePlaceholders indicates whether unresolvable placeholders should be ignored ({@code
-     *                                       true}) or cause an exception ({@code false})
+     * @param placeholderPrefix              表示占位符开始的前缀
+     * @param placeholderSuffix              表示占位符结束的后缀
+     * @param valueSeparator                 占位符变量与关联默认值之间的分隔字符（如果有）
+     * @param ignoreUnresolvablePlaceholders 指示是否应忽略无法解析的占位符（{@code true}）还是抛出异常（{@code false}）
      */
     PropertyPlaceholderHelper(String placeholderPrefix, String placeholderSuffix, String valueSeparator,
                               boolean ignoreUnresolvablePlaceholders) {
@@ -82,12 +83,11 @@ public enum PropertyPlaceholderHelper {
     }
 
     /**
-     * Replaces all placeholders of format {@code ${name}} with the corresponding property from the supplied {@link
-     * Properties}.
+     * 将格式为 {@code ${name}} 的所有占位符替换为提供的 {@link Properties} 中的相应属性。
      *
-     * @param value      the value containing the placeholders to be replaced
-     * @param properties the {@code Properties} to use for replacement
-     * @return the supplied value with placeholders replaced inline
+     * @param value      包含待替换占位符的值
+     * @param properties 用于替换的 {@code Properties} 对象
+     * @return 占位符被内联替换后的值
      */
     public String replacePlaceholders(String value, final Properties properties) {
         return replacePlaceholders(value, new PlaceholderResolver() {
@@ -98,6 +98,13 @@ public enum PropertyPlaceholderHelper {
         });
     }
 
+    /**
+     * 获取配置值
+     * 首先从系统属性(System Properties)中查找指定key的值
+     * 如果找不到，则从环境变量(Environment Variables)中查找
+     * 如果仍然找不到，则从传入的Properties对象中查找
+     * 返回找到的值，都找不到则返回null
+     */
     private String getConfigValue(String key, final Properties properties) {
         String value = System.getProperty(key);
         if (value == null) {
@@ -110,17 +117,25 @@ public enum PropertyPlaceholderHelper {
     }
 
     /**
-     * Replaces all placeholders of format {@code ${name}} with the value returned from the supplied {@link
-     * PlaceholderResolver}.
+     * 将格式为 {@code ${name}} 的所有占位符替换为提供的 {@link PlaceholderResolver} 返回的值。
      *
-     * @param value               the value containing the placeholders to be replaced
-     * @param placeholderResolver the {@code PlaceholderResolver} to use for replacement
-     * @return the supplied value with placeholders replaced inline
+     * @param value               包含待替换占位符的值
+     * @param placeholderResolver 用于替换的 {@code PlaceholderResolver} 对象
+     * @return 占位符被内联替换后的值
      */
     public String replacePlaceholders(String value, PlaceholderResolver placeholderResolver) {
         return parseStringValue(value, placeholderResolver, new HashSet<String>());
     }
 
+    /**
+     * 该方法用于解析字符串中的占位符。主要功能包括：
+     * 1.查找并替换占位符为实际值；
+     * 2.支持递归解析嵌套占位符；
+     * 3.检测循环引用，防止死循环；
+     * 4.支持默认值（通过分隔符区分）；
+     * 5.可配置是否忽略无法解析的占位符。
+     * 核心是通过递归和字符串替换实现多层占位符解析。
+     */
     protected String parseStringValue(String value, PlaceholderResolver placeholderResolver,
                                       Set<String> visitedPlaceholders) {
 

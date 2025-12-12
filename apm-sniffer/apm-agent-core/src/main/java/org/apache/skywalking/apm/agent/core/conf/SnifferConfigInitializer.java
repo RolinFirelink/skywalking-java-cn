@@ -46,7 +46,7 @@ import org.apache.skywalking.apm.util.StringUtil;
 import static org.apache.skywalking.apm.agent.core.conf.Constants.SERVICE_NAME_PART_CONNECTOR;
 
 /**
- * The <code>SnifferConfigInitializer</code> initializes all configs in several way.
+ * SnifferConfigInitializer 用于通过多种方式初始化所有配置
  */
 public class SnifferConfigInitializer {
     private static ILog LOGGER = LogManager.getLogger(SnifferConfigInitializer.class);
@@ -79,11 +79,13 @@ public class SnifferConfigInitializer {
         }
 
         try {
+            // 使用系统属性覆盖配置
             overrideConfigBySystemProp();
         } catch (Exception e) {
             LOGGER.error(e, "Failed to read the system properties.");
         }
 
+        // 使用agentOptions覆盖配置,agentOptions指的就是随程序运行的用户传入的参数
         agentOptions = StringUtil.trim(agentOptions, ',');
         if (!StringUtil.isEmpty(agentOptions)) {
             try {
@@ -97,7 +99,7 @@ public class SnifferConfigInitializer {
         }
 
         initializeConfig(Config.class);
-        // reconfigure logger after config initialization
+        // 在配置初始化后重新配置日志记录器
         configureLogger();
         LOGGER = LogManager.getLogger(SnifferConfigInitializer.class);
 
@@ -130,9 +132,9 @@ public class SnifferConfigInitializer {
     }
 
     /**
-     * Initialize field values of any given config class.
+     * 初始化任何给定配置类的字段值。
      *
-     * @param configClass to host the settings for code access.
+     * @param configClass 用于托管代码访问的设置。
      */
     public static void initializeConfig(Class configClass) {
         if (AGENT_SETTINGS == null) {
@@ -191,10 +193,9 @@ public class SnifferConfigInitializer {
     }
 
     /**
-     * Override the config by system properties. The property key must start with `skywalking`, the result should be as
-     * same as in `agent.config`
+     * 通过系统属性覆盖配置。属性键必须以 `skywalking` 开头，结果应与 `agent.config` 中的配置相同
      * <p>
-     * such as: Property key of `agent.service_name` should be `skywalking.agent.service_name`
+     * 例如：`agent.service_name` 的属性键应该是 `skywalking.agent.service_name`
      */
     private static void overrideConfigBySystemProp() {
         Properties systemProperties = System.getProperties();
@@ -208,7 +209,7 @@ public class SnifferConfigInitializer {
     }
 
     /**
-     * Set agent version(Described in MANIFEST.MF)
+     * 设置代理版本（在MANIFEST.MF中描述）
      */
     private static void setAgentVersion() {
         try {
@@ -236,9 +237,12 @@ public class SnifferConfigInitializer {
     }
 
     /**
-     * Load the specified config file or default config file
+     * 加载指定的配置文件或默认配置文件
      *
-     * @return the config file {@link InputStream}, or null if not needEnhance.
+     * @return 配置文件的{@link InputStream}，如果不需要增强则返回null。
+     *
+     * 首先检查系统属性 skywalking_config 是否指定了配置文件路径
+     * 如果没有指定，则使用默认路径：AgentPackagePath.getPath(){这个路径其实就是SkyWalking agent.jar包的路径} + /config/agent.config
      */
     private static InputStreamReader loadConfig() throws AgentPackageNotFoundException, ConfigNotFoundException {
         String specifiedConfigPath = System.getProperty(SPECIFIED_CONFIG_PATH);

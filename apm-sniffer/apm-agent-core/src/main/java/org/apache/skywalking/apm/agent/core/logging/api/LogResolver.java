@@ -19,19 +19,20 @@
 package org.apache.skywalking.apm.agent.core.logging.api;
 
 /**
- * {@link LogResolver} just do only one thing: return the {@link ILog} implementation.
+ * {@link LogResolver} 只做一件事：返回 {@link ILog} 实现。
  * <p>
  */
 public interface LogResolver {
     /**
-     * @param clazz the class is showed in log message.
-     * @return {@link ILog} implementation.
+     * @param clazz 日志消息中显示的类。
+     * @return {@link ILog} 实现。
      */
     ILog getLogger(Class<?> clazz);
 
     /**
-     * @param clazz the class is showed in log message.
-     * @return {@link ILog} implementation.
+     * @param clazz 日志消息中显示的类。
+     * @return {@link ILog} 实现。
      */
     ILog getLogger(String clazz);
 }
+

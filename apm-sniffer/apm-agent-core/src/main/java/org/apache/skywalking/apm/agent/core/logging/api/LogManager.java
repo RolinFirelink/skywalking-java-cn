@@ -21,16 +21,13 @@ package org.apache.skywalking.apm.agent.core.logging.api;
 import org.apache.skywalking.apm.agent.core.logging.core.PatternLogResolver;
 
 /**
- * LogManager is the {@link LogResolver} implementation manager. By using {@link LogResolver}, {@link
- * LogManager#getLogger(Class)} returns a {@link ILog} implementation. This module use this class as the main entrance,
- * and block the implementation detail about log-component. In different modules, like server or sniffer, it will use
- * different implementations.
+ * LogManager 是 {@link LogResolver} 实现的管理器。通过使用 {@link LogResolver}，{@link LogManager#getLogger(Class)} 返回一个 {@link ILog} 实现。该模块使用此类作为主要入口，
+ * 并屏蔽了日志组件的实现细节。在不同的模块中，如服务器或嗅探器，它将使用不同的实现。
  *
- * <p> If no {@link LogResolver} is registered, return {@link NoopLogger#INSTANCE} to avoid
- * {@link NullPointerException}. If {@link LogManager#setLogResolver(LogResolver)} is called twice, the second will
- * override the first without any warning or exception.
+ * <p> 如果没有注册 {@link LogResolver}，则返回 {@link NoopLogger#INSTANCE} 以避免 {@link NullPointerException}。
+ * 如果 {@link LogManager#setLogResolver(LogResolver)} 被调用两次，第二次将覆盖第一次，不会有任何警告或异常。
  *
- * <p> Created by xin on 2016/11/10.
+ * <p> 由 xin 于 2016/11/10 创建。
  */
 public class LogManager {
     private static LogResolver RESOLVER = new PatternLogResolver();

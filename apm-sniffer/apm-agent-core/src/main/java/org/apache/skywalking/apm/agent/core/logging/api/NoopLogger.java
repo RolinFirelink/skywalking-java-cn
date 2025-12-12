@@ -19,8 +19,7 @@
 package org.apache.skywalking.apm.agent.core.logging.api;
 
 /**
- * No operation logger implementation. Just implement {@link ILog} interface, but do nothing.
- * <p>
+ * 无操作日志记录器实现。仅实现 {@link ILog} 接口，但不执行任何操作。
  */
 public enum NoopLogger implements ILog {
     INSTANCE;
