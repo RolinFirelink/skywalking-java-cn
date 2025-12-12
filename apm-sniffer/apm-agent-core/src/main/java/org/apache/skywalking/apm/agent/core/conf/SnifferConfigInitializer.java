@@ -57,15 +57,13 @@ public class SnifferConfigInitializer {
     private static boolean IS_INIT_COMPLETED = false;
 
     /**
-     * If the specified agent config path is set, the agent will try to locate the specified agent config. If the
-     * specified agent config path is not set , the agent will try to locate `agent.config`, which should be in the
-     * /config directory of agent package.
+     * 如果设置了指定的agent配置路径，agent将尝试定位指定的agent配置。如果没有设置指定的agent配置路径，
+     * agent将尝试定位`agent.config`，该文件应该在agent包的/config目录中。
      * <p>
-     * Also try to override the config by system.properties. All the keys in this place should start with {@link
-     * #ENV_KEY_PREFIX}. e.g. in env `skywalking.agent.service_name=yourAppName` to override `agent.service_name` in
-     * config file.
+     * 还会尝试通过system.properties覆盖配置。此处的所有键都应以{@link #ENV_KEY_PREFIX}开头。
+     * 例如：在环境变量中使用`skywalking.agent.service_name=yourAppName`来覆盖配置文件中的`agent.service_name`。
      * <p>
-     * At the end, `agent.service_name` and `collector.servers` must not be blank.
+     * 最后，`agent.service_name`和`collector.servers`不能为空。
      */
     public static void initializeCoreConfig(String agentOptions) {
         AGENT_SETTINGS = new Properties();

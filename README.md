@@ -10,30 +10,30 @@ Apache SkyWalking Java Agent
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.skywalking/apm-agent.svg)](https://skywalking.apache.org/downloads/)
 [![CI](https://github.com/apache/skywalking-java/actions/workflows/ci.yaml/badge.svg)](https://github.com/apache/skywalking-java/actions/workflows/ci.yaml)
 
-SkyWalking-Java: The Java Agent for Apache SkyWalking, which provides the native tracing/metrics/logging abilities for Java projects.
+SkyWalking-Java: Apache SkyWalking 的 Java Agent，为 Java 项目提供原生的追踪/指标/日志功能。
 
-SkyWalking: an APM(application performance monitor) system, especially designed for microservices, cloud native and container-based (Docker and Kubernetes) architectures.
+SkyWalking: 一个 APM（应用性能监控）系统，专门为微服务、云原生和基于容器（Docker 和 Kubernetes）的架构而设计。
 
-# Documentation
-- [Official documentation](https://skywalking.apache.org/docs/#JavaAgent)
+# 文档
+- [官方文档](https://skywalking.apache.org/docs/#JavaAgent)
 
-# Downloads
-Please head to the [releases page](https://skywalking.apache.org/downloads/) to download a release of Apache SkyWalking.
+# 下载
+请前往 [发布页面](https://skywalking.apache.org/downloads/) 下载 Apache SkyWalking 的发行版。
 
-# Code of conduct
-This project adheres to the Contributor Covenant [code of conduct](https://www.apache.org/foundation/policies/conduct). By participating, you are expected to uphold this code.
-Please follow the [REPORTING GUIDELINES](https://www.apache.org/foundation/policies/conduct#reporting-guidelines) to report unacceptable behavior.
+# 行为准则
+本项目遵循贡献者公约 [行为准则](https://www.apache.org/foundation/policies/conduct)。参与即表示您同意遵守此准则。
+请遵循 [报告指南](https://www.apache.org/foundation/policies/conduct#reporting-guidelines) 来举报不当行为。
 
-# Live Demo
-Find the [demo](https://skywalking.apache.org/#demo) and [screenshots](https://skywalking.apache.org/#arch) on our website.
+# 在线演示
+在我们的网站上查看 [演示](https://skywalking.apache.org/#demo) 和 [截图](https://skywalking.apache.org/#arch)。
 
 
-# Contact Us
-* Mail list: **dev@skywalking.apache.org**. Mail to `dev-subscribe@skywalking.apache.org`, follow the reply to subscribe the mail list.
-* Send `Request to join SkyWalking slack` mail to the mail list(`dev@skywalking.apache.org`), we will invite you in.
-* For Chinese speaker, send `[CN] Request to join SkyWalking slack` mail to the mail list(`dev@skywalking.apache.org`), we will invite you in.
+# 联系我们
+* 邮件列表: **dev@skywalking.apache.org**. 发送邮件至 `dev-subscribe@skywalking.apache.org`，按照回复指示订阅邮件列表。
+* 发送 `Request to join SkyWalking slack` 邮件到邮件列表 (`dev@skywalking.apache.org`)，我们会邀请您加入。
+* 对于中文用户，请发送 `[CN] Request to join SkyWalking slack` 邮件到邮件列表 (`dev@skywalking.apache.org`)，我们会邀请您加入。
 * Twitter, [ASFSkyWalking](https://twitter.com/AsfSkyWalking)
 * [bilibili B站 视频](https://space.bilibili.com/390683219)
 
-# License
+# 许可证
 [Apache 2.0 License.](LICENSE)

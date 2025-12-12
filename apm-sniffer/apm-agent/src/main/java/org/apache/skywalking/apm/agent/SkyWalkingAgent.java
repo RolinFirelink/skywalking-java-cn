@@ -64,17 +64,18 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.apache.skywalking.apm.agent.core.conf.Constants.NAME_TRAIT;
 
 /**
- * The main entrance of sky-walking agent, based on javaagent mechanism.
+ * sky-walking agent的主要入口，基于javaagent机制。
  */
 public class SkyWalkingAgent {
     private static ILog LOGGER = LogManager.getLogger(SkyWalkingAgent.class);
 
     /**
-     * Main entrance. Use byte-buddy transform to enhance all classes, which define in plugins.
+     * 主要入口。使用byte-buddy转换来增强插件中定义的所有类。
      */
     public static void premain(String agentArgs, Instrumentation instrumentation) throws PluginException {
         final PluginFinder pluginFinder;
         try {
+            // 初始化配置
             SnifferConfigInitializer.initializeCoreConfig(agentArgs);
         } catch (Exception e) {
             // try to resolve a new logger, and use the new logger to write the error log here
