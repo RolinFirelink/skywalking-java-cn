@@ -26,14 +26,14 @@ import org.apache.skywalking.apm.agent.core.conf.Config;
 import static org.apache.skywalking.apm.agent.core.conf.Config.Plugin.EXCLUDE_PLUGINS;
 
 /**
- * Select some plugins in activated plugins
+ * 从已激活的插件中选择部分插件
  */
 public class PluginSelector {
     /**
-     * Exclude activated plugins
+     * 排除已激活的插件
      *
-     * @param pluginDefines the pluginDefines is loaded from activations directory or plugins directory
-     * @return real activate plugins
+     * @param pluginDefines 插件定义列表，从activations目录或plugins目录加载
+     * @return 实际激活的插件列表
      * @see Config.Plugin#EXCLUDE_PLUGINS
      */
     public List<PluginDefine> select(List<PluginDefine> pluginDefines) {

@@ -78,12 +78,12 @@ public class SkyWalkingAgent {
             // 初始化配置
             SnifferConfigInitializer.initializeCoreConfig(agentArgs);
         } catch (Exception e) {
-            // try to resolve a new logger, and use the new logger to write the error log here
+            // 尝试解析一个新的日志记录器，并使用该新日志记录器在此处写入错误日志。重新加载日志记录器,确保日志记录器的配置都是最新的且能正确加载
             LogManager.getLogger(SkyWalkingAgent.class)
                     .error(e, "SkyWalking agent initialized failure. Shutting down.");
             return;
         } finally {
-            // refresh logger again after initialization finishes
+            // 初始化完成后再次刷新日志记录器
             LOGGER = LogManager.getLogger(SkyWalkingAgent.class);
         }
 
@@ -93,6 +93,7 @@ public class SkyWalkingAgent {
         }
 
         try {
+            // 创建插件查找器(同时也会加载所有插件到查找器上)
             pluginFinder = new PluginFinder(new PluginBootstrap().loadPlugins());
         } catch (AgentPackageNotFoundException ape) {
             LOGGER.error(ape, "Locate agent.jar failure. Shutting down.");
@@ -103,6 +104,7 @@ public class SkyWalkingAgent {
         }
 
         try {
+            // 目前读到这里
             installClassTransformer(instrumentation, pluginFinder);
         } catch (Exception e) {
             LOGGER.error(e, "Skywalking agent installed class transformer failure.");

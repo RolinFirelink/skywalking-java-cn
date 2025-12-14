@@ -105,6 +105,7 @@ public class SnifferConfigInitializer {
 
         setAgentVersion();
 
+        // 设置服务名称
         if (StringUtil.isEmpty(Config.Agent.SERVICE_NAME)) {
             throw new ExceptionInInitializerError("`agent.service_name` is missing.");
         } else {

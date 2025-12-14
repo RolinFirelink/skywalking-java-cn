@@ -26,13 +26,22 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 /**
- * The plugin can be inserted into the kernel by implementing this spi return PluginDefine list.
+ * 通过实现此SPI接口并返回PluginDefine列表，插件可以被插入到内核中
  */
 
 public enum DynamicPluginLoader {
 
     INSTANCE;
 
+    /**
+     * 通过ServiceLoader机制加载所有InstrumentationLoader服务实例，然后调用每个加载器的load方法获取插件定义列表，最终将所有插件合并返回。
+     * 具体步骤：
+     * 1. 创建空的结果列表all
+     * 2. 使用ServiceLoader.load()查找并加载InstrumentationLoader的实现类
+     * 3. 遍历每个加载器，调用其load方法获取插件列表
+     * 4. 将非空插件列表添加到结果中
+     * 5. 返回合并后的完整插件列表
+     */
     public List<AbstractClassEnhancePluginDefine> load(AgentClassLoader classLoader) {
         List<AbstractClassEnhancePluginDefine> all = new ArrayList<AbstractClassEnhancePluginDefine>();
         for (InstrumentationLoader instrumentationLoader : ServiceLoader.load(InstrumentationLoader.class, classLoader)) {

@@ -23,7 +23,7 @@ import org.apache.skywalking.apm.agent.core.plugin.AbstractClassEnhancePluginDef
 import java.util.List;
 
 /**
- * the spi of the InstrumentationLoader.
+ * InstrumentationLoader 的 SPI（服务提供者接口）
  */
 
 public interface InstrumentationLoader {

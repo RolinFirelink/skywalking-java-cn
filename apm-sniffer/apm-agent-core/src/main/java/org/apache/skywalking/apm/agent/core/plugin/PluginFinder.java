@@ -36,8 +36,7 @@ import static net.bytebuddy.matcher.ElementMatchers.isInterface;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
 /**
- * The <code>PluginFinder</code> represents a finder , which assist to find the one from the given {@link
- * AbstractClassEnhancePluginDefine} list.
+ * PluginFinder 是一个查找器，它帮助从给定的 AbstractClassEnhancePluginDefine 列表中找到匹配的插件
  */
 public class PluginFinder {
     private final Map<String, LinkedList<AbstractClassEnhancePluginDefine>> nameMatchDefine = new HashMap<String, LinkedList<AbstractClassEnhancePluginDefine>>();
@@ -45,6 +44,15 @@ public class PluginFinder {
     private final List<AbstractClassEnhancePluginDefine> bootstrapClassMatchDefine = new ArrayList<AbstractClassEnhancePluginDefine>();
     private static boolean IS_PLUGIN_INIT_COMPLETED = false;
 
+    /**
+     * 这段代码是PluginFinder的构造函数，主要功能是：
+     * 1. 遍历传入的插件列表
+     * 2. 获取每个插件的类匹配规则
+     * 3. 根据匹配规则类型分类存储：
+     *  3.1 NameMatch类型：按类名存入nameMatchDefine映射表
+     *  3.2 其他类型：存入signatureMatchDefine列表
+     * 4. 如果插件需要Bootstrap类增强，则额外添加到bootstrapClassMatchDefine列表中
+     */
     public PluginFinder(List<AbstractClassEnhancePluginDefine> plugins) {
         for (AbstractClassEnhancePluginDefine plugin : plugins) {
             ClassMatch match = plugin.enhanceClass();

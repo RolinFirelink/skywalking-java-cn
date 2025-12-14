@@ -37,6 +37,16 @@ public enum PluginCfg {
     private List<PluginDefine> pluginClassList = new ArrayList<PluginDefine>();
     private PluginSelector pluginSelector = new PluginSelector();
 
+    /**
+     * 从输入流中读取插件定义配置，解析并加载到插件类列表中。
+     * 具体逻辑：
+     * 1. 使用BufferedReader逐行读取输入流内容
+     * 2. 跳过空行和以"#"开头的注释行
+     * 3. 将有效配置行解析为PluginDefine对象
+     * 4. 添加到pluginClassList列表中
+     * 5. 遇到格式错误时记录日志并继续处理
+     * 6. 最终关闭输入流资源
+     */
     void load(InputStream input) throws IOException {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));

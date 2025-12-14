@@ -27,13 +27,12 @@ import org.apache.skywalking.apm.agent.core.logging.api.ILog;
 import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 
 /**
- * Plugins finder. Use {@link PluginResourcesResolver} to find all plugins, and ask {@link PluginCfg} to load all plugin
- * definitions.
+ * 插件查找器。使用 PluginResourcesResolver 查找所有插件，并让 PluginCfg 加载所有插件定义。
  */
 public class PluginBootstrap {
     private static final ILog LOGGER = LogManager.getLogger(PluginBootstrap.class);
 
-    // Preload ThreadLocalRandom in case of intermittent ClassCircularityError since ByteBuddy 1.12.11
+    // 预加载 ThreadLocalRandom 以避免自 ByteBuddy 1.12.11 版本以来可能出现的间歇性 ClassCircularityError 错误
     static {
         try {
             Class.forName("java.util.concurrent.ThreadLocalRandom");
@@ -43,9 +42,8 @@ public class PluginBootstrap {
     }
 
     /**
-     * load all plugins.
-     *
-     * @return plugin definition list.
+     * 加载所有插件。
+     * @return 插件定义列表。
      */
     public List<AbstractClassEnhancePluginDefine> loadPlugins() throws AgentPackageNotFoundException {
         AgentClassLoader.initDefaultLoader();
@@ -66,6 +64,7 @@ public class PluginBootstrap {
             }
         }
 
+        // 获取实际激活的插件列表
         List<PluginDefine> pluginClassList = PluginCfg.INSTANCE.getPluginClassList();
 
         List<AbstractClassEnhancePluginDefine> plugins = new ArrayList<AbstractClassEnhancePluginDefine>();

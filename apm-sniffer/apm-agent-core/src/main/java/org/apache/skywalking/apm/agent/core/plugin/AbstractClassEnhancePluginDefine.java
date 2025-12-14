@@ -1,18 +1,14 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * 根据一个或多个贡献者许可协议授权给 Apache Software Foundation (ASF)。
+ * 有关版权所有权的其他信息，请参阅随此作品分发的 NOTICE 文件。
+ * ASF 根据 Apache License, Version 2.0（"许可证"）向您授权此文件；
+ * 除非符合许可证，否则您不得使用此文件。您可以在以下位置获取许可证的副本：
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 除非适用法律要求或书面同意，否则根据许可证分发的软件
+ * 按"原样"基础分发，不提供任何明示或暗示的担保或条件。
+ * 有关许可证管理权限和限制的具体语言，请参阅许可证。
  *
  */
 
@@ -35,39 +31,39 @@ import org.apache.skywalking.apm.util.StringUtil;
 import java.util.List;
 
 /**
- * Basic abstract class of all sky-walking auto-instrumentation plugins.
+ * 所有 sky-walking 自动插桩插件的基础抽象类。
  * <p>
- * It provides the outline of enhancing the target class. If you want to know more about enhancing, you should go to see
+ * 它提供了增强目标类的框架。如果你想了解更多关于增强的信息，你应该查看
  * {@link ClassEnhancePluginDefine}
  */
 public abstract class AbstractClassEnhancePluginDefine {
     private static final ILog LOGGER = LogManager.getLogger(AbstractClassEnhancePluginDefine.class);
 
     /**
-     * plugin name defined in skywalking-plugin.def
+     * 在 skywalking-plugin.def 中定义的插件名称
      */
     private String pluginName;
     /**
-     * New field name.
+     * 新字段名称。
      */
     public static final String CONTEXT_ATTR_NAME = "_$EnhancedClassField_ws";
     /**
-     * Getter method name.
+     * Getter 方法名称。
      */
     public static final String CONTEXT_GETTER_NAME = "getSkyWalkingDynamicField";
     /**
-     * Setter method name.
+     * Setter 方法名称。
      */
     public static final String CONTEXT_SETTER_NAME = "setSkyWalkingDynamicField";
 
     /**
-     * Main entrance of enhancing the class.
+     * 增强类的主入口。
      *
-     * @param typeDescription target class description.
-     * @param builder         byte-buddy's builder to manipulate target class's bytecode.
-     * @param classLoader     load the given transformClass
-     * @return the new builder, or <code>null</code> if not be enhanced.
-     * @throws PluginException when set builder failure.
+     * @param typeDescription 目标类描述。
+     * @param builder         byte-buddy 的构建器，用于操作目标类的字节码。
+     * @param classLoader     加载给定的 transformClass
+     * @return 新的构建器，如果未被增强则返回 <code>null</code>。
+     * @throws PluginException 当设置构建器失败时。
      */
     public DynamicType.Builder<?> define(TypeDescription typeDescription, DynamicType.Builder<?> builder,
         ClassLoader classLoader, EnhanceContext context) throws PluginException {
@@ -81,7 +77,7 @@ public abstract class AbstractClassEnhancePluginDefine {
         LOGGER.debug("prepare to enhance class {} by {}.", transformClassName, interceptorDefineClassName);
         WitnessFinder finder = WitnessFinder.INSTANCE;
         /**
-         * find witness classes for enhance class
+         * 查找用于增强类的见证类
          */
         String[] witnessClasses = witnessClasses();
         if (witnessClasses != null) {
@@ -103,7 +99,7 @@ public abstract class AbstractClassEnhancePluginDefine {
         }
 
         /**
-         * find origin class source code for interceptor
+         * 查找拦截器的原始类源代码
          */
         DynamicType.Builder<?> newClassBuilder = this.enhance(typeDescription, builder, classLoader, context);
 
@@ -114,11 +110,11 @@ public abstract class AbstractClassEnhancePluginDefine {
     }
 
     /**
-     * Begin to define how to enhance class. After invoke this method, only means definition is finished.
+     * 开始定义如何增强类。调用此方法后，仅表示定义已完成。
      *
-     * @param typeDescription target class description
-     * @param newClassBuilder byte-buddy's builder to manipulate class bytecode.
-     * @return new byte-buddy's builder for further manipulation.
+     * @param typeDescription 目标类描述
+     * @param newClassBuilder byte-buddy 的构建器，用于操作类字节码。
+     * @return 新的 byte-buddy 构建器，用于进一步操作。
      */
     protected DynamicType.Builder<?> enhance(TypeDescription typeDescription, DynamicType.Builder<?> newClassBuilder,
                                              ClassLoader classLoader, EnhanceContext context) throws PluginException {
@@ -130,40 +126,40 @@ public abstract class AbstractClassEnhancePluginDefine {
     }
 
     /**
-     * Enhance a class to intercept constructors and class instance methods.
+     * 增强类以拦截构造函数和类实例方法。
      *
-     * @param typeDescription target class description
-     * @param newClassBuilder byte-buddy's builder to manipulate class bytecode.
-     * @return new byte-buddy's builder for further manipulation.
+     * @param typeDescription 目标类描述
+     * @param newClassBuilder byte-buddy 的构建器，用于操作类字节码。
+     * @return 新的 byte-buddy 构建器，用于进一步操作。
      */
     protected abstract DynamicType.Builder<?> enhanceInstance(TypeDescription typeDescription,
                                                      DynamicType.Builder<?> newClassBuilder, ClassLoader classLoader,
                                                      EnhanceContext context) throws PluginException;
 
     /**
-     * Enhance a class to intercept class static methods.
+     * 增强类以拦截类静态方法。
      *
-     * @param typeDescription target class description
-     * @param newClassBuilder byte-buddy's builder to manipulate class bytecode.
-     * @return new byte-buddy's builder for further manipulation.
+     * @param typeDescription 目标类描述
+     * @param newClassBuilder byte-buddy 的构建器，用于操作类字节码。
+     * @return 新的 byte-buddy 构建器，用于进一步操作。
      */
     protected abstract DynamicType.Builder<?> enhanceClass(TypeDescription typeDescription, DynamicType.Builder<?> newClassBuilder,
                                                   ClassLoader classLoader) throws PluginException;
 
     /**
-     * Define the {@link ClassMatch} for filtering class.
+     * 定义用于过滤类的 {@link ClassMatch}。
      *
      * @return {@link ClassMatch}
      */
     protected abstract ClassMatch enhanceClass();
 
     /**
-     * Witness classname list. Why need witness classname? Let's see like this: A library existed two released versions
-     * (like 1.0, 2.0), which include the same target classes, but because of version iterator, they may have the same
-     * name, but different methods, or different method arguments list. So, if I want to target the particular version
-     * (let's say 1.0 for example), version number is obvious not an option, this is the moment you need "Witness
-     * classes". You can add any classes only in this particular release version ( something like class
-     * com.company.1.x.A, only in 1.0 ), and you can achieve the goal.
+     * 见证类名列表。为什么需要见证类名？让我们这样看：一个库存在两个发布版本
+     *（如 1.0、2.0），它们包含相同的目标类，但由于版本迭代，它们可能有相同的
+     * 名称，但方法不同，或方法参数列表不同。所以，如果我想针对特定版本
+     *（比如 1.0），版本号显然不是一个选项，这时你需要"见证类"。
+     * 你可以添加仅在此特定发布版本中存在的任何类（比如类
+     * com.company.1.x.A，仅在 1.0 中存在），这样你就可以达到目标。
      */
     protected String[] witnessClasses() {
         return new String[] {};
@@ -178,44 +174,44 @@ public abstract class AbstractClassEnhancePluginDefine {
     }
 
     /**
-     * Constructor methods intercept point. See {@link ConstructorInterceptPoint}
+     * 构造函数方法拦截点。参见 {@link ConstructorInterceptPoint}
      *
-     * @return collections of {@link ConstructorInterceptPoint}
+     * @return {@link ConstructorInterceptPoint} 的集合
      */
     public abstract ConstructorInterceptPoint[] getConstructorsInterceptPoints();
 
     /**
-     * Instance methods intercept point. See {@link InstanceMethodsInterceptPoint}
+     * 实例方法拦截点。参见 {@link InstanceMethodsInterceptPoint}
      *
-     * @return collections of {@link InstanceMethodsInterceptPoint}
+     * @return {@link InstanceMethodsInterceptPoint} 的集合
      */
     public abstract InstanceMethodsInterceptPoint[] getInstanceMethodsInterceptPoints();
 
     /**
-     * Instance methods intercept v2 point. See {@link InstanceMethodsInterceptV2Point}
+     * 实例方法拦截 v2 点。参见 {@link InstanceMethodsInterceptV2Point}
      *
-     * @return collections of {@link InstanceMethodsInterceptV2Point}
+     * @return {@link InstanceMethodsInterceptV2Point} 的集合
      */
     public abstract InstanceMethodsInterceptV2Point[] getInstanceMethodsInterceptV2Points();
 
     /**
-     * Static methods intercept point. See {@link StaticMethodsInterceptPoint}
+     * 静态方法拦截点。参见 {@link StaticMethodsInterceptPoint}
      *
-     * @return collections of {@link StaticMethodsInterceptPoint}
+     * @return {@link StaticMethodsInterceptPoint} 的集合
      */
     public abstract StaticMethodsInterceptPoint[] getStaticMethodsInterceptPoints();
 
     /**
-     * Instance methods intercept v2 point. See {@link InstanceMethodsInterceptV2Point}
+     * 静态方法拦截 v2 点。参见 {@link StaticMethodsInterceptV2Point}
      *
-     * @return collections of {@link InstanceMethodsInterceptV2Point}
+     * @return {@link StaticMethodsInterceptV2Point} 的集合
      */
     public abstract StaticMethodsInterceptV2Point[] getStaticMethodsInterceptV2Points();
 
     /**
-     * plugin name should be set after create PluginDefine instance
+     * 插件名称应在创建 PluginDefine 实例后设置
      *
-     * @param pluginName key defined in skywalking-plugin.def
+     * @param pluginName 在 skywalking-plugin.def 中定义的键
      */
     protected void setPluginName(final String pluginName) {
         this.pluginName = pluginName;

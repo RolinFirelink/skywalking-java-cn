@@ -42,20 +42,20 @@ import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.agent.core.plugin.PluginBootstrap;
 
 /**
- * The <code>AgentClassLoader</code> represents a classloader, which is in charge of finding plugins and interceptors.
+ * AgentClassLoader 是一个类加载器，负责查找插件和拦截器
  */
 public class AgentClassLoader extends ClassLoader {
 
     static {
         /*
-         * Try to solve the classloader dead lock. See https://github.com/apache/skywalking/pull/2016
+         * 尝试解决类加载器死锁问题。详见 https://github.com/apache/skywalking/pull/2016
          */
         registerAsParallelCapable();
     }
 
     private static final ILog LOGGER = LogManager.getLogger(AgentClassLoader.class);
     /**
-     * The default class loader for the agent.
+     * Agent 的默认类加载器
      */
     private static AgentClassLoader DEFAULT_LOADER;
 
@@ -68,9 +68,9 @@ public class AgentClassLoader extends ClassLoader {
     }
 
     /**
-     * Init the default class loader.
+     * 初始化默认类加载器
      *
-     * @throws AgentPackageNotFoundException if agent package is not found.
+     * @throws AgentPackageNotFoundException 如果agent包没有找到会抛出该异常
      */
     public static void initDefaultLoader() throws AgentPackageNotFoundException {
         if (DEFAULT_LOADER == null) {
@@ -82,6 +82,11 @@ public class AgentClassLoader extends ClassLoader {
         }
     }
 
+    /**
+     * 遍历 Config.Plugin.MOUNT 配置项中的所有挂载文件夹路径
+     * 对于每个挂载文件夹，创建一个指向该路径的 File 对象
+     * 将这些 File 对象添加到 classpath 列表中
+     */
     public AgentClassLoader(ClassLoader parent) throws AgentPackageNotFoundException {
         super(parent);
         File agentDictionary = AgentPackagePath.getPath();

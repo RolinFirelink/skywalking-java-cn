@@ -23,12 +23,12 @@ import org.apache.skywalking.apm.util.StringUtil;
 
 public class PluginDefine {
     /**
-     * Plugin name.
+     * 插件名
      */
     private String name;
 
     /**
-     * The class name of plugin defined.
+     * 插件定义的类名
      */
     private String defineClass;
 
@@ -37,6 +37,9 @@ public class PluginDefine {
         this.defineClass = defineClass;
     }
 
+    /**
+     * 构建插件定义,分隔字符串然后用这两部分返回新的PluginDefine对象
+     */
     public static PluginDefine build(String define) throws IllegalPluginDefineException {
         if (StringUtil.isEmpty(define)) {
             throw new IllegalPluginDefineException(define);
