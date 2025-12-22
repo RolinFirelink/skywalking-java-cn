@@ -160,8 +160,8 @@ public class SkyWalkingAgent {
     }
 
     /**
-     * Create a new agent builder through customized {@link ByteBuddy} powered by
-     * {@link SWAuxiliaryTypeNamingStrategy} {@link DelegateNamingResolver} {@link SWMethodNameTransformer} and {@link SWImplementationContextFactory}
+     * 通过自定义的 {@link ByteBuddy} 创建一个新的代理构建器，该构建器由
+     * {@link SWAuxiliaryTypeNamingStrategy}、{@link DelegateNamingResolver}、{@link SWMethodNameTransformer} 和 {@link SWImplementationContextFactory} 提供支持
      */
     private static AgentBuilder newAgentBuilder() {
         final ByteBuddy byteBuddy = new ByteBuddy()

@@ -25,7 +25,7 @@ import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.utility.RandomString;
 
 /**
- * Support custom suffix name trait, using in cache value field name, field getter/setter delegation, accessor method and so on.
+ * 支持自定义后缀名称特征，用于缓存值字段名、字段getter/setter委托、访问器方法等。
  */
 public class SWImplementationContextFactory implements Implementation.Context.Factory {
 
